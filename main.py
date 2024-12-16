@@ -1,5 +1,6 @@
 from logger_config import configure_logging, get_logger
 
+
 def main():
     """
     アプリケーションのエントリーポイント。
@@ -17,6 +18,6 @@ def main():
     logger.error("エラー: 予期しないエラーが発生しました")
     logger.critical("致命的なエラー: アプリケーションを終了します")
 
+
 if __name__ == "__main__":
     main()
-    
