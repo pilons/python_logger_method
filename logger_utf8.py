@@ -9,24 +9,27 @@ def configure_logging(log_file='app_utf8.log', log_level=logging.DEBUG):
         log_file (str): ログファイルのパス。
         log_level (int): ログレベル（例: logging.DEBUG）。
     """
-    # ログハンドラーを作成してエンコーディングを指定
-    handler = logging.FileHandler(log_file, mode='w', encoding='utf-8')
+    # ルートロガーの取得
+    logger = logging.getLogger()
+    logger.setLevel(log_level)
+
+    # ハンドラーが重複追加されないようにクリア
+    if logger.hasHandlers():
+        logger.handlers.clear()
 
     # コンソール用のハンドラーを作成
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)  # ハンドラーのログレベルを設定
-    handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.DEBUG)
+    console_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    console_handler.setFormatter(console_formatter)
+    logger.addHandler(console_handler)
 
-# ファイル出力用のハンドラー
-    file_handler = logging.FileHandler(log_file)
+    # ファイル出力用のハンドラーを作成
+    file_handler = logging.FileHandler(log_file, mode='w', encoding='utf-8')
     file_handler.setLevel(logging.ERROR)
     file_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(file_formatter)
-
-    # ルートロガーにハンドラーを追加
-    logger = logging.getLogger()
-    logger.setLevel(log_level)
-    logger.addHandler(handler)
+    logger.addHandler(file_handler)
 
 
 def get_logger(name):
@@ -42,4 +45,5 @@ def get_logger(name):
     return logging.getLogger(name)
 
 
+# ログ設定を初期化
 configure_logging()
