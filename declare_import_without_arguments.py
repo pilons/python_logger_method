@@ -1,15 +1,13 @@
-from logger_config import configure_logging, get_logger
+from logger_utf8 import get_logger
+from second import second
 
 
-def main():
+def without_arguments():
     """
     アプリケーションのエントリーポイント。
     """
-    # ログ設定を適用
-    configure_logging()
 
-    # 名前付きロガーを取得
-    logger = get_logger("MainApp")
+    logger = get_logger(without_arguments.__name__)
 
     # ログの出力例
     logger.debug("アプリケーションがデバッグモードで起動しました")
@@ -20,4 +18,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    without_arguments()
